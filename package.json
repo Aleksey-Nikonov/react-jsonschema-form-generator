@@ -1,0 +1,32 @@
+{
+  "name": "react-jsonschema-form-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook-build": "build-storybook -c .storybook",
+    "release": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexey-Nikonov/react-jsonschema-form-generator.git"
+  },
+  "author": "Aleksey Nikonov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexey-Nikonov/react-jsonschema-form-generator/issues"
+  },
+  "homepage": "https://github.com/Alexey-Nikonov/react-jsonschema-form-generator#readme",
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "@storybook/react": "^3.3.12",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1"
+  }
+}
