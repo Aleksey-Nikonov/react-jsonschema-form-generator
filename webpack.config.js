@@ -8,7 +8,9 @@ const config = {
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.css$/, include: path.resolve(__dirname, '../'), loaders: ["style-loader", "css-loader"] },
+      { test: /\.(woff|woff2|eot|ttf|svg)$/, loader: "url-loader" }
     ]
   }
 };

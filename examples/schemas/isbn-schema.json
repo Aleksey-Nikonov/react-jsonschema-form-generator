@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "ISBN",
+  "description": "ISBN information of the book",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "fullTitle": {
+      "title": "Full title",
+      "description": "Full title of the book",
+      "type" : "string",
+      "required" : true
+    },
+    "isbn": {
+      "title": "ISBN",
+      "description": "ISBN value of the book",
+      "type" : "number",
+      "required" : true
+    },
+    "isbn13": {
+      "title": "ISBN13",
+      "description": "ISBN13 value of the book",
+      "type" : "number",
+      "required" : true
+    },
+    "publisher": {
+      "title": "Publisher",
+      "description": "Publisher of the book",
+      "type": "string",
+      "required": true
+    },
+    "edition": {
+      "title": "Edition",
+      "description": "Edition of the book",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Reprint", "Slp", "Special Rehearsal Script ed.", "50th Anniversary ed.", "Reissue", "Unabridged"]
+      },
+      "uniqueItems": true,
+      "required": true
+    },
+    "publishDate": {
+      "title": "Publish Date",
+      "description": "Publish date of the book",
+      "type": "string",
+      "format": "date-time",
+      "required": true
+    },
+    "binding": {
+      "title": "Binding",
+      "description": "Binding of the book",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["hardcover", "paperbound", "VHS video", "laserdisc", "e-book format"]
+      },
+      "uniqueItems": true,
+      "required": true
+    },
+    "overview": {
+      "title": "Overview",
+      "description": "Overview of the book",
+      "type": "string",
+      "required": true
+    },
+    "dimensions": {
+      "title": "Dimensions",
+      "description": "Dimensions of the book (width x height x depth)",
+      "type": "object",
+      "properties": {
+        "width": { "type": "number" },
+        "height": { "type": "number" },
+        "depth": { "type": "number" }
+      },
+      "required": ["length", "width", "height"],
+      "required": true
+    },
+    "subjects": {
+      "title": "Subjects",
+      "description": "Subjects of the book",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "required": true
+    }
+  },
+  "required": ["fullTitle", "isbn", "isbn13", "publisher", "binding", "subjects"]
+}

@@ -1,0 +1,11 @@
+{
+  "publishDate": {
+    "ui:widget": "alt-date"
+  },
+  "overview": {
+    "ui:widget": "textarea",
+    "ui:options": {
+      "rows": 15
+    }
+  }
+}
