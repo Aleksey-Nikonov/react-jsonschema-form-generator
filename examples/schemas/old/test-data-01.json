@@ -1,0 +1,16 @@
+{
+  "fullTitle": "123",
+  "isbn": 123,
+  "isbn13": 132,
+  "publisher": "Some publisher",
+  "edition": [ "Reprint" ],
+  "publishDate": "2018-02-17",
+  "binding": [ "paperbound" ],
+  "overview": "123",
+  "dimensions": {
+    "width": 123,
+    "height": 123,
+    "depth": 123
+  },
+  "subjects": [ "123", "432" ]
+}

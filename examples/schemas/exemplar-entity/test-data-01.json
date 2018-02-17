@@ -1,0 +1,25 @@
+{
+  "id": 0,
+  "isbn": {
+    "prefix": "978",
+    "registrationGroup": "3",
+    "registrant": "5",
+    "publication": "111111",
+    "checkDigit": "0"
+  },
+  "owner": {
+    "subject": "01",
+    "ifns": "01",
+    "uniqueNumber": "00000",
+    "checkDigit": "0"
+  },
+  "holder": {
+    "subject": "01",
+    "ifns": "01",
+    "uniqueNumber": "000000",
+    "checkDigit": "00"
+  },
+  "state": "The book is with the owner",
+  "recordingDate": "2018-02-17",
+  "returningDate": "2018-02-17"
+}

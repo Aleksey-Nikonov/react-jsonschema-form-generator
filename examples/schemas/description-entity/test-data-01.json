@@ -1,0 +1,14 @@
+{
+  "isbn": {
+    "prefix": "978",
+    "registrationGroup": "3",
+    "registrant": "5",
+    "publication": "111111",
+    "checkDigit": "0"
+  },
+  "publisher": "Some publisher",
+  "edition": "Reprint",
+  "binding": "hardcover",
+  "publishDate": "2018-02-17",
+  "price": 123
+}

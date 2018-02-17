@@ -1,0 +1,115 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Examplar entity",
+  "description": "Description of an examplar of the book",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "id", "isbn", "owner", "holder", "state", "recordingDate", "returningDate" ],
+  "properties": {
+    "id": {
+      "description": "The unique identifier for an examplar",
+      "type": "number"
+    },
+    "isbn": {
+      "$ref": "/shared-schemas/isbn"
+    },
+    "owner": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/inn10" },
+        { "$ref": "#/definitions/inn12" }
+      ]
+    },
+    "holder": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/inn10" },
+        { "$ref": "#/definitions/inn12" }
+      ]
+    },
+    "state": {
+      "title": "State",
+      "description": "State of the book",
+      "enum": [ "The book is with the owner", "The book is rented", "The book is lost" ],
+      "uniqueItems": true
+    },
+    "recordingDate": {
+      "title": "Recording date",
+      "description": "Recording date of the book",
+      "type": "string",
+      "format": "date"
+    },
+    "returningDate": {
+      "title": "Returning date",
+      "description": "Returning date of the book",
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "definitions": {
+    "inn10": {
+      "title": "INN 10",
+      "description": "INN 10 value of the 'physical face'",
+      "required": [ "subject", "ifns", "uniqueNumber", "checkDigit" ],
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": "string",
+          "title": "Subject",
+          "description": "Number of the subject of the Russian Federation",
+          "pattern": "^(0[1-9]|[1-7][0-9]|8[0-5])$"
+        },
+        "ifns": {
+          "type": "string",
+          "title": "IFNS",
+          "description": "Number of IFNS",
+          "pattern": "^(0[1-9]|[1-9][0-9])$"
+        },
+        "uniqueNumber": {
+          "type": "string",
+          "title": "Unique number",
+          "description": "Unique number of the taxpayer with INN 10",
+          "pattern": "^[0-9][0-9][0-9][0-9][0-9]$"
+        },
+        "checkDigit": {
+          "type": "string",
+          "title": "Check digit",
+          "description": "Check digit for checking the correctness of the INN 10",
+          "pattern": "^[0-9]$"
+        }
+      }
+    },
+    "inn12": {
+      "title": "INN 12",
+      "description": "INN 12 value of the 'physical face'",
+      "required": [ "subject", "ifns", "uniqueNumber", "checkDigit" ],
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "type": "string",
+          "title": "Subject",
+          "description": "Number of the subject of the Russian Federation",
+          "pattern": "^(0[1-9]|[1-7][0-9]|8[0-5])$"
+        },
+        "ifns": {
+          "type": "string",
+          "title": "IFNS",
+          "description": "Number of IFNS",
+          "pattern": "^(0[1-9]|[1-9][0-9])$"
+        },
+        "uniqueNumber": {
+          "type": "string",
+          "title": "Unique number",
+          "description": "Unique number of the taxpayer with INN 12",
+          "pattern": "^[0-9][0-9][0-9][0-9][0-9][0-9]$"
+        },
+        "checkDigit": {
+          "type": "string",
+          "title": "Check digit",
+          "description": "Check digit for checking the correctness of the INN 12",
+          "pattern": "^[0-9][0-9]$"
+        }
+      }
+    }
+  }
+}

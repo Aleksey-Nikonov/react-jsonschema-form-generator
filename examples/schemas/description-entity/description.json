@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Description entity",
+  "description": "Description of the book based on its ISBN information",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "isbn", "publisher", "edition", "binding", "publishDate", "price" ],
+  "properties": {
+    "isbn": {
+      "$ref": "/shared-schemas/isbn"
+    },
+    "publisher": {
+      "title": "Publisher",
+      "description": "Publisher of the book",
+      "type": "string"
+    },
+    "edition": {
+      "title": "Edition",
+      "description": "Edition of the book",
+      "enum": [ "Reprint", "Slp", "Special Rehearsal Script ed.", "50th Anniversary ed.", "Reissue", "Unabridged" ],
+      "uniqueItems": true
+    },
+    "binding": {
+      "title": "Binding",
+      "description": "Binding of the book",
+      "enum": [ "hardcover", "paperbound", "VHS video", "laserdisc", "e-book format" ],
+      "uniqueItems": true
+    },
+    "publishDate": {
+      "title": "Publish Date",
+      "description": "Publish date of the book",
+      "type": "string",
+      "format": "date"
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0
+    }
+  }
+}

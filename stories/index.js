@@ -7,8 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import TestComponent from '../src/components/Test';
 import ExampleForm from '../examples/ExampleForm/ExampleForm.js';
 
-import isbnSchema from '../examples/schemas/isbn-schema.json';
-import uiIsbnSchema from '../examples/schemas/ui-isbn-schema.json';
+import isbnSchema from '../examples/schemas/old/isbn-schema.json';
+import uiIsbnSchema from '../examples/schemas/old/ui-isbn-schema.json';
 
 storiesOf('Example schemas', module)
   .add('ISBN', () => (

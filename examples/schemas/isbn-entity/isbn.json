@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "/shared-schemas/isbn",
+  "title": "ISBN",
+  "description": "ISBN value of the book",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "prefix", "registrationGroup", "registrant", "publication", "checkDigit" ],
+  "properties": {
+    "prefix": {
+      "type": "string",
+      "title": "Prefix element",
+      "description": "EAN.UCC prefix",
+      "pattern": "978|979"
+    },
+    "registrationGroup": {
+      "type": "string",
+      "title": "Registration group identifier",
+      "description": "This identifies the particular country, geographical region, or language area participating in the ISBN system",
+      "pattern": "^[0-5]$|^7$|^6[0-4][0-9]$|^(8[0-9]|9[0-4])$|^9[5-8][0-9]$|^99[0-8][0-9]$|^999[0-9][0-9]$"
+    },
+    "registrant": {
+      "type": "string",
+      "title": "Registrant element",
+      "description": "This identifies the particular publisher or imprint",
+      "pattern": "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9])$"
+    },
+    "publication": {
+      "type": "string",
+      "title": "Publication element",
+      "description": "This identifies the particular edition and format of a specific title",
+      "pattern": "^([0-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9])$"
+    },
+    "checkDigit": {
+      "type": "string",
+      "title": "Check digit",
+      "description": "This is always the final single digit that mathematically validates the rest of the number",
+      "pattern": "^[0-9]$"
+    }
+  }
+}
