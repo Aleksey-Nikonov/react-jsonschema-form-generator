@@ -1,6 +1,6 @@
 var Ajv = require('ajv');
 
-(function() {
+(function(Ajv) {
   var ajv = new Ajv({ allErrors: true });
 
   var isbn_schema = require('../../examples/schemas/isbn-entity/isbn.json');
