@@ -48,11 +48,11 @@ const errorHandlingService = ((utils) => {
   //======================================================================
 
   function _outputToConsole(errorData) {
-    if (!Array.isArray(errorData)) {
+    if (utils.isObject(errorData)) {
       console.log(utils.getTimeStamp() + '\n' + errorData.getDescription());
     }
 
-    if (Array.isArray(errorData)) {
+    if (utils.isArray(errorData)) {
       for (var i = errorData.length - 1; i >= 0; i--) {
         console.log(utils.getTimeStamp() + '\n' + errorData[i].getDescription());
       }
@@ -60,11 +60,11 @@ const errorHandlingService = ((utils) => {
   }
 
   function _outputToModalWindow() {
-    if (!Array.isArray(errorData)) {
+    if (utils.isObject(errorData)) {
 
     }
 
-    if (Array.isArray(errorData)) {
+    if (utils.isArray(errorData)) {
 
     }
   }

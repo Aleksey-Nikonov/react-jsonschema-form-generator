@@ -42,11 +42,49 @@ const utils = ((validation) => {
     return (!str || 0 === str.length);
   }
 
+  function _isObject(obj) {
+    return Object.prototype.toString.call(obj) === '[object Object]';
+    // return (!!obj) && (obj.constructor === Object);
+  }
+
+  function _isArray(arr) {
+    return Array.isArray(arr);
+    // return (!!arr) && (arr.constructor === Array);
+  }
+
+  // /(глава \d+(\.\d)*)/i;
+  const _hrefRegExp = new RegExp('^(http|https)://');
+  function _isHref(source) {
+    return _hrefRegExp.test(source);
+  }
+
+  function _getHrefSchema(address) {
+    return new Promise((resolve, reject) => {
+      fetch(address, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(r => r.json())
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        reject(error);
+      });
+    })
+  }
+
   return {
     isObjectEmpty: _isObjectEmpty,
     getTimeStamp: _getTimeStamp,
     printObject: _printObject,
-    isStringEmpty: _isStringEmpty
+    isStringEmpty: _isStringEmpty,
+    isObject: _isObject,
+    isArray: _isArray,
+    isHref: _isHref,
+    getHrefSchema: _getHrefSchema
   }
 })();
 

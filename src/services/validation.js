@@ -3,8 +3,18 @@ import utils from '../utils';
 import Ajv from 'ajv';
 
 const validationService = ((errorHandling, utils) => {
-  let isEmpty = false,
-      isJsonInvalid = false;
+  let _isEmpty, _isJsonInvalid;
+
+  function _validate(schemas) {
+    _isEmpty = false;
+    _isJsonInvalid = false;
+
+    _checkForEmpty(schemas);
+
+    if (_areSchemasValid()) {
+      _checkForJsonValidity(schemas);
+    }
+  }
 
   function _checkForEmpty(schemas) {
     // if (!Array.isArray(schema)) {
@@ -23,10 +33,11 @@ const validationService = ((errorHandling, utils) => {
         const _error = errorHandling.createError('Empty', { schemaNumber: i } );
         errorHandling.outputToConsole(_error);
 
-        isEmpty = true;
-      } else {
-        isEmpty = false;
+        _isEmpty = true;
       }
+      // else {
+        // isEmpty = false;
+      // }
     }
   }
 
@@ -38,25 +49,26 @@ const validationService = ((errorHandling, utils) => {
     for (var i = schemas.length - 1; i >= 0; i--) {
       try {
         JSON.parse(JSON.stringify(schemas[i]));
-        isJsonInvalid = false;
+        // isJsonInvalid = false;
       }
       catch (e) {
         const _innerError = errorHandling.mapToBaseError(e);
         const _error = errorHandling.createError('Validation', null, _innerError );
         errorHandling.outputToConsole(_error);
 
-        isJsonInvalid = true;
+        _isJsonInvalid = true;
       }
     }
   }
 
   function _areSchemasValid() {
-    return !isEmpty && !isJsonInvalid;
+    return !_isEmpty && !_isJsonInvalid;
   }
 
   return {
-    checkForEmpty: _checkForEmpty,
-    checkForJsonValidity: _checkForJsonValidity,
+    // checkForEmpty: _checkForEmpty,
+    // checkForJsonValidity: _checkForJsonValidity,
+    validate: _validate,
     areSchemasValid: _areSchemasValid
   }
 })(errorHandlingService, utils);

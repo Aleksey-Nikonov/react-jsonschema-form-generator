@@ -3,10 +3,12 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import Form from '../src/components/Form';
+import TestRecursion from '../src/components/TestRecursion';
 
 import descriptionSchema from '../examples/schemas/description-entity/description.json';
 import exemplarSchema from '../examples/schemas/exemplar-entity/exemplar.json';
 import isbnSchema from '../examples/schemas/isbn-entity/isbn.json';
+import tempSchema from '../examples/schemas/temp-schema-href-entity/temp-schema-href.json';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -42,6 +44,14 @@ storiesOf('ISBN schemas', module)
   .add('isbn', () => (
     <Form schemas={isbnSchema} />
   ))
+  .add('3 schemas', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema]} />
+  ))
+  .add('3 schemas + href', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema, tempSchema]} />
+  ));
+
+storiesOf('Tests', module)
   .add('empty schema', () => (
     <Form />
   ))
@@ -53,4 +63,7 @@ storiesOf('ISBN schemas', module)
   ))
   .add('empty space', () => (
     <div>almost empty space</div>
+  ))
+  .add('test recursion', () => (
+    <TestRecursion schema={exemplarSchema} />
   ));

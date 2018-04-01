@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "/shared-schemas/temp-schema-with-href",
+  "title": "TEMP ref",
+  "description": "Temp schema with ref",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "href1", "href2" ],
+  "properties": {
+    "href1": {
+      "$ref": "http://shared-schemas/temp1"
+    },
+    "href2": {
+      "$ref": "https://shared-schemas/temp2"
+    },
+    "href3": {
+      "$ref": "http://json-schema.org/draft-07/schema#"
+    },
+    "href4": {
+      "$ref": "http://json-schema.org/geo"
+    },
+    "href5": {
+      "$ref": "/shared-schemas/nonexistent"
+    }
+  }
+}
