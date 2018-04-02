@@ -9,6 +9,7 @@ import descriptionSchema from '../examples/schemas/description-entity/descriptio
 import exemplarSchema from '../examples/schemas/exemplar-entity/exemplar.json';
 import isbnSchema from '../examples/schemas/isbn-entity/isbn.json';
 import tempSchema from '../examples/schemas/temp-schema-href-entity/temp-schema-href.json';
+import tempErrorSchema from '../examples/schemas/temp-schema-href-error-entity/temp-schema-href-error.json';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -49,6 +50,9 @@ storiesOf('ISBN schemas', module)
   ))
   .add('3 schemas + href', () =>(
     <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema, tempSchema]} />
+  ))
+  .add('3 schemas + error href', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema, tempErrorSchema]} />
   ));
 
 storiesOf('Tests', module)

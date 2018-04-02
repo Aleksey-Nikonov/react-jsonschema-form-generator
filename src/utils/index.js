@@ -1,91 +1,85 @@
-const utils = ((validation) => {
-  function _isObjectEmpty(obj) {
-    if (!obj) {
-      return true;
-    }
-
-    for (let prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        return false;
-      }
-    }
-
+export function isObjectEmpty(obj) {
+  if (!obj) {
     return true;
   }
 
-  function _getTimeStamp() {
-    const date = new Date();
-
-    const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-
-    return `[${hours}:${minutes}:${seconds}]`;
-  }
-
-  function _printObject(obj) {
-    let output = '';
-
-    for (let prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        output += `${prop}: ${obj[prop]}\n`
-      }
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      return false;
     }
-
-    // removing the last new line
-    output = output.substring(0, output.length - 1);
-
-    return output;
   }
 
-  function _isStringEmpty(str) {
-    return (!str || 0 === str.length);
+  return true;
+}
+
+export function getTimeStamp() {
+  const date = new Date();
+
+  const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+  const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+  const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+
+  return `[${hours}:${minutes}:${seconds}]`;
+}
+
+export function printObject(obj) {
+  let output = '';
+
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      output += `${prop}: ${obj[prop]}\n`
+    }
   }
 
-  function _isObject(obj) {
-    return Object.prototype.toString.call(obj) === '[object Object]';
-    // return (!!obj) && (obj.constructor === Object);
-  }
+  // removing the last new line
+  output = output.substring(0, output.length - 1);
 
-  function _isArray(arr) {
-    return Array.isArray(arr);
-    // return (!!arr) && (arr.constructor === Array);
-  }
+  return output;
+}
 
-  // /(глава \d+(\.\d)*)/i;
-  const _hrefRegExp = new RegExp('^(http|https)://');
-  function _isHref(source) {
-    return _hrefRegExp.test(source);
-  }
+export function isStringEmpty(str) {
+  return (!str || 0 === str.length);
+}
 
-  function _getHrefSchema(address) {
-    return new Promise((resolve, reject) => {
-      fetch(address, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        }
-      })
-      .then(r => r.json())
-      .then(response => {
-        resolve(response);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    })
-  }
+export function isObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+  // return (!!obj) && (obj.constructor === Object);
+}
 
-  return {
-    isObjectEmpty: _isObjectEmpty,
-    getTimeStamp: _getTimeStamp,
-    printObject: _printObject,
-    isStringEmpty: _isStringEmpty,
-    isObject: _isObject,
-    isArray: _isArray,
-    isHref: _isHref,
-    getHrefSchema: _getHrefSchema
-  }
-})();
+export function isArray(arr) {
+  return Array.isArray(arr);
+  // return (!!arr) && (arr.constructor === Array);
+}
 
-export default utils;
+// /(глава \d+(\.\d)*)/i;
+const hrefRegExp = new RegExp('^(http|https)://');
+export function isHref(source) {
+  return hrefRegExp.test(source);
+}
+
+export function getHrefSchema(address) {
+  // return new Promise((resolve, reject) => {
+  //   fetch(address, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Accept': 'application/json'
+  //     }
+  //   })
+  //   .then(r => r.json())
+  //   .then(response => {
+  //     resolve(response);
+  //   })
+  //   .catch(error => {
+  //     reject(error);
+  //   });
+  // })
+  const request = new XMLHttpRequest();
+  request.open('GET', address, false);  // `false` makes the request synchronous
+  request.setRequestHeader('Accept', 'application/json');
+
+  request.send(null);
+
+  if (request.status === 200) {
+    return JSON.parse(request.responseText);
+  }
+}

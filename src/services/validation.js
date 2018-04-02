@@ -1,76 +1,65 @@
-import errorHandlingService from './errorHandling';
-import utils from '../utils';
+import * as errorHandling from './errorHandling';
+import * as utils from '../utils';
 import Ajv from 'ajv';
 
-const validationService = ((errorHandling, utils) => {
-  let _isEmpty, _isJsonInvalid;
+let isEmpty, isJsonInvalid;
 
-  function _validate(schemas) {
-    _isEmpty = false;
-    _isJsonInvalid = false;
+export function validate(schemas) {
+  isEmpty = false;
+  isJsonInvalid = false;
 
-    _checkForEmpty(schemas);
+  checkForEmpty(schemas);
 
-    if (_areSchemasValid()) {
-      _checkForJsonValidity(schemas);
-    }
+  if (areSchemasValid()) {
+    checkForJsonValidity(schemas);
   }
+}
 
-  function _checkForEmpty(schemas) {
-    // if (!Array.isArray(schema)) {
-    //   if (utils.isObjectEmpty(schema)) {
-    //     const _error = errorHandling.createError('Empty');
-    //     errorHandling.outputToConsole(_error);
+function checkForEmpty(schemas) {
+  // if (!Array.isArray(schema)) {
+  //   if (utils.isObjectEmpty(schema)) {
+  //     const _error = errorHandling.createError('Empty');
+  //     errorHandling.outputToConsole(_error);
 
-    //     isEmpty = true;
-    //   } else {
-    //     isEmpty = false;
-    //   }
+  //     isEmpty = true;
+  //   } else {
+  //     isEmpty = false;
+  //   }
+  // }
+
+  for (var i = schemas.length - 1; i >= 0; i--) {
+    if (utils.isObjectEmpty(schemas[i])) {
+      const error = errorHandling.createError('Empty', { schemaNumber: i } );
+      errorHandling.outputToConsole(error);
+
+      isEmpty = true;
+    }
+    // else {
+      // isEmpty = false;
     // }
+  }
+}
 
-    for (var i = schemas.length - 1; i >= 0; i--) {
-      if (utils.isObjectEmpty(schemas[i])) {
-        const _error = errorHandling.createError('Empty', { schemaNumber: i } );
-        errorHandling.outputToConsole(_error);
+function checkForJsonValidity(schemas) {
+  // if (!Array.isArray(schema)) {
+  //   checkOneSchemaForJsonValidity(schema);
+  // }
 
-        _isEmpty = true;
-      }
-      // else {
-        // isEmpty = false;
-      // }
+  for (var i = schemas.length - 1; i >= 0; i--) {
+    try {
+      JSON.parse(JSON.stringify(schemas[i]));
+      // isJsonInvalid = false;
+    }
+    catch (e) {
+      const innerError = errorHandling.mapToBaseError(e);
+      const error = errorHandling.createError('Validation', null, innerError);
+      errorHandling.outputToConsole(error);
+
+      isJsonInvalid = true;
     }
   }
+}
 
-  function _checkForJsonValidity(schemas) {
-    // if (!Array.isArray(schema)) {
-    //   _checkOneSchemaForJsonValidity(schema);
-    // }
-
-    for (var i = schemas.length - 1; i >= 0; i--) {
-      try {
-        JSON.parse(JSON.stringify(schemas[i]));
-        // isJsonInvalid = false;
-      }
-      catch (e) {
-        const _innerError = errorHandling.mapToBaseError(e);
-        const _error = errorHandling.createError('Validation', null, _innerError );
-        errorHandling.outputToConsole(_error);
-
-        _isJsonInvalid = true;
-      }
-    }
-  }
-
-  function _areSchemasValid() {
-    return !_isEmpty && !_isJsonInvalid;
-  }
-
-  return {
-    // checkForEmpty: _checkForEmpty,
-    // checkForJsonValidity: _checkForJsonValidity,
-    validate: _validate,
-    areSchemasValid: _areSchemasValid
-  }
-})(errorHandlingService, utils);
-
-export default validationService;
+export function areSchemasValid() {
+  return !isEmpty && !isJsonInvalid;
+}
