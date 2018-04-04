@@ -6,17 +6,26 @@ let schemas;
 let schemasHashDictionary;
 
 export function initialize(schemas) {
-  if (utils.isObject(schemas)) {
-    schemas = [schemas];
-  }
+  return new Promise((resolve, reject) => {
+    if (utils.isObject(schemas)) {
+      schemas = [schemas];
+    }
 
-  validation.validate(schemas);
+    validation.validate(schemas);
 
-  if (validation.areSchemasValid()) {
-    schemas = schemas;
+    if (validation.areSchemasValid()) {
+      schemas = schemas;
 
-    schemasHashDictionary = hashDictionary.initialize(schemas);
+      hashDictionary.initialize(schemas)
+        .then(hash => {
+          schemasHashDictionary = hash;
+          console.log(utils.getTimeStamp(), schemasHashDictionary);
+          resolve();
+        });
+    }
+  });
+}
 
-    console.log(utils.getTimeStamp(), schemasHashDictionary);
-  }
+export function getHashDictionary() {
+  return schemasHashDictionary;
 }

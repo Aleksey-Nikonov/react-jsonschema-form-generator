@@ -58,28 +58,19 @@ export function isHref(source) {
 }
 
 export function getHrefSchema(address) {
-  // return new Promise((resolve, reject) => {
-  //   fetch(address, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Accept': 'application/json'
-  //     }
-  //   })
-  //   .then(r => r.json())
-  //   .then(response => {
-  //     resolve(response);
-  //   })
-  //   .catch(error => {
-  //     reject(error);
-  //   });
-  // })
-  const request = new XMLHttpRequest();
-  request.open('GET', address, false);  // `false` makes the request synchronous
-  request.setRequestHeader('Accept', 'application/json');
-
-  request.send(null);
-
-  if (request.status === 200) {
-    return JSON.parse(request.responseText);
-  }
+  return new Promise((resolve, reject) => {
+    fetch(address, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(r => r.json())
+    .then(response => {
+      resolve(response);
+    })
+    .catch(error => {
+      reject(error);
+    });
+  });
 }

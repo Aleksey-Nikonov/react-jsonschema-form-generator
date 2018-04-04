@@ -2,33 +2,39 @@ import * as validation from '../services/validation';
 import * as utils from '../utils';
 
 let schemasHashDictionary;
+let asyncRequests;
 
 export function initialize(schemas) {
-  schemasHashDictionary = {};
+  return new Promise((resolve, reject) => {
+    schemasHashDictionary = {};
+    asyncRequests = [];
 
-  schemas.forEach(schema => {
-    recursion(null, schema, resolveRef, schema);
+    schemas.forEach(schema => {
+      recursion(null, schema, schema);
+    });
+
+    Promise.all(asyncRequests)
+      .then(() => {
+        resolve(schemasHashDictionary);
+      });
   });
-
-  return schemasHashDictionary;
 }
 
-function recursion(property, value, clb, currentSchema) {
+function recursion(property, value, currentSchema) {
   if (utils.isArray(value)) {
     value.forEach((value) => {
-      recursion(property, value, clb, currentSchema);
+      recursion(property, value, currentSchema);
     });
   }
   else if (utils.isObject(value)) {
     for (let objProperty in value) {
       if (value.hasOwnProperty(objProperty)) {
-        recursion(objProperty, value[objProperty], clb, currentSchema);
+        recursion(objProperty, value[objProperty], currentSchema);
       }
     }
   }
   else {
-    // console.log('property ' + property, 'value ' + value)
-    return clb(property, value, currentSchema);
+    return resolveRef(property, value, currentSchema);
   }
 }
 
@@ -60,19 +66,19 @@ function resolveRef(property, value, currentSchema) {
       }
 
     } else if (utils.isHref(value)) {
-      try {
-        const schema = utils.getHrefSchema(value);
+      const hrefRequest = utils.getHrefSchema(value)
+        .then(schema => {
+          validation.validate([schema]);
 
-        validation.validate([schema]);
+          if (validation.areSchemasValid()) {
+            schemasHashDictionary[value] = schema;
 
-        if (validation.areSchemasValid()) {
-          schemasHashDictionary[value] = schema;
+            recursion(null, schema, schema);
+          }
+        })
+        .catch(e => console.log('Error', e));
 
-          recursion(null, schema, resolveRef, schema);
-        }
-      } catch (e) {
-        console.log(e);
-      }
+      asyncRequests.push(hrefRequest);
     }
   }
 }

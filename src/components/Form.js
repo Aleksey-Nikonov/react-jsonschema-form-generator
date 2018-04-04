@@ -9,7 +9,8 @@ export default class Form extends PureComponent {
   }
 
   componentWillMount() {
-    core.initialize(this.props.schemas);
+    core.initialize(this.props.schemas)
+      .then(() => console.log('Hash dictionary is loaded'));
   }
 
   render() {
