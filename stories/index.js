@@ -3,13 +3,13 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import Form from '../src/components/Form';
-import TestRecursion from '../src/components/TestRecursion';
 
 import descriptionSchema from '../examples/schemas/description-entity/description.json';
 import exemplarSchema from '../examples/schemas/exemplar-entity/exemplar.json';
 import isbnSchema from '../examples/schemas/isbn-entity/isbn.json';
 import tempSchema from '../examples/schemas/temp-schema-href-entity/temp-schema-href.json';
 import tempErrorSchema from '../examples/schemas/temp-schema-href-error-entity/temp-schema-href-error.json';
+import schemaArray from '../examples/schemas/schema-array-entity/schema-array.json';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -39,8 +39,11 @@ storiesOf('ISBN schemas', module)
   .add('description', () => (
     <Form schemas={descriptionSchema} />
   ))
-  .add('exemplar', () => (
-    <Form schemas={exemplarSchema} />
+  .add('description + isbn meta', () => (
+    <Form schemas={descriptionSchema} metaSchemas={isbnSchema} />
+  ))
+  .add('exemplar + isbn meta', () => (
+    <Form schemas={exemplarSchema} metaSchemas={isbnSchema} />
   ))
   .add('isbn', () => (
     <Form schemas={isbnSchema} />
@@ -48,15 +51,24 @@ storiesOf('ISBN schemas', module)
   .add('3 schemas', () =>(
     <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema]} />
   ))
-  .add('3 schemas + href', () =>(
-    <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema, tempSchema]} />
+  .add('3 schemas (isbn meta)', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema]} metaSchemas={[isbnSchema]} />
   ))
-  .add('3 schemas + error href', () =>(
-    <Form schemas={[descriptionSchema, exemplarSchema, isbnSchema, tempErrorSchema]} />
+  .add('3 schemas (href)', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema, tempSchema]} />
+  ))
+  .add('4 schemas (href, isbn meta)', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema, tempSchema]} metaSchemas={[isbnSchema]} />
+  ))
+  .add('4 schemas (error href, isbn meta)', () =>(
+    <Form schemas={[descriptionSchema, exemplarSchema, tempErrorSchema]} metaSchemas={[isbnSchema]} />
+  ))
+  .add('schema with array', () =>(
+    <Form schemas={schemaArray} />
   ));
 
 storiesOf('Tests', module)
-  .add('empty schema', () => (
+  .add('no props', () => (
     <Form />
   ))
   .add('undefined schema', () => (
@@ -67,7 +79,4 @@ storiesOf('Tests', module)
   ))
   .add('empty space', () => (
     <div>almost empty space</div>
-  ))
-  .add('test recursion', () => (
-    <TestRecursion schema={exemplarSchema} />
   ));

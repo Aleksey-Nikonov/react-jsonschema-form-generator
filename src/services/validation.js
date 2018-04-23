@@ -15,6 +15,12 @@ export function validate(schemas) {
   }
 }
 
+export function validateMeta(metaSchemas) {
+  isJsonInvalid = false;
+
+  checkForJsonValidity(metaSchemas);
+}
+
 function checkForEmpty(schemas) {
   // if (!Array.isArray(schema)) {
   //   if (utils.isObjectEmpty(schema)) {
@@ -27,9 +33,9 @@ function checkForEmpty(schemas) {
   //   }
   // }
 
-  for (var i = schemas.length - 1; i >= 0; i--) {
+  for (var i = 0; i < schemas.length; i++) {
     if (utils.isObjectEmpty(schemas[i])) {
-      const error = errorHandling.createError('Empty', { schemaNumber: i } );
+      const error = errorHandling.createError('Empty', { 'Number of schema': i } );
       errorHandling.outputToConsole(error);
 
       isEmpty = true;
@@ -62,4 +68,8 @@ function checkForJsonValidity(schemas) {
 
 export function areSchemasValid() {
   return !isEmpty && !isJsonInvalid;
+}
+
+export function areMetaSchemasValid() {
+  return !isJsonInvalid;
 }

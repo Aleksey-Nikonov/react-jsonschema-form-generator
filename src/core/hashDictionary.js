@@ -4,32 +4,37 @@ import * as utils from '../utils';
 let schemasHashDictionary;
 let asyncRequests;
 
-export function initialize(schemas) {
+export function initialize(schemas, metaSchemas) {
   return new Promise((resolve, reject) => {
     schemasHashDictionary = {};
     asyncRequests = [];
 
     schemas.forEach(schema => {
-      recursion(null, schema, schema);
+      processChunk(null, schema, schema);
+    });
+
+    metaSchemas.forEach(metaSchema => {
+      processChunk(null, metaSchema, metaSchema);
     });
 
     Promise.all(asyncRequests)
       .then(() => {
+        // console.log('Schemas dict', schemasHashDictionary);
         resolve(schemasHashDictionary);
       });
   });
 }
 
-function recursion(property, value, currentSchema) {
+function processChunk(property, value, currentSchema) {
   if (utils.isArray(value)) {
     value.forEach((value) => {
-      recursion(property, value, currentSchema);
+      processChunk(property, value, currentSchema);
     });
   }
   else if (utils.isObject(value)) {
     for (let objProperty in value) {
       if (value.hasOwnProperty(objProperty)) {
-        recursion(objProperty, value[objProperty], currentSchema);
+        processChunk(objProperty, value[objProperty], currentSchema);
       }
     }
   }
@@ -73,7 +78,7 @@ function resolveRef(property, value, currentSchema) {
           if (validation.areSchemasValid()) {
             schemasHashDictionary[value] = schema;
 
-            recursion(null, schema, schema);
+            processChunk(null, schema, schema);
           }
         })
         .catch(e => console.log('Error', e));

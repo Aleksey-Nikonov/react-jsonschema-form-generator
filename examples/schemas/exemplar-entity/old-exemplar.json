@@ -1,5 +1,5 @@
 {
-  "$schema": "//json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Examplar entity",
   "description": "Description of an examplar of the book",
   "type": "object",
@@ -14,10 +14,18 @@
       "$ref": "/shared-schemas/isbn"
     },
     "owner": {
-      "$ref": "#/definitions/inn10"
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/inn10" },
+        { "$ref": "#/definitions/inn12" }
+      ]
     },
     "holder": {
-      "$ref": "#/definitions/inn12"
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/inn10" },
+        { "$ref": "#/definitions/inn12" }
+      ]
     },
     "state": {
       "title": "State",
